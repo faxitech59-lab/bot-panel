@@ -58,12 +58,12 @@
       <div><label>Bot ka naam</label><input id="f-name" placeholder="merabot"></div>
       <div><label>GitHub repo URL</label><input id="f-repo" placeholder="https://github.com/user/bot"></div>
       <div><label>Branch (khali = default branch)</label><input id="f-branch" placeholder="khali chhoro"></div>
-      <div><label>Start command</label><input id="f-start" placeholder="npm start" value="npm start"></div>
+      <div><label>Start command (khali = auto detect)</label><input id="f-start" placeholder="khali chhoro"></div>
       <div class="full"><label>Install command (khali = auto detect)</label><input id="f-install" placeholder="yarn install"></div>
       <div class="full"><label>Environment variables (har line par KEY=value)</label><textarea id="f-env" placeholder="SESSION_ID=abc123&#10;PREFIX=.&#10;DATABASE_URL=/data/database.db"></textarea></div>
     </div>
     <button class="btn-primary" onclick="addBot()">Add Bot</button>
-    <div class="hint">Add karne ke baad bot clone + install hoga (status par nazar rakho), phir <b>Start</b> dabao.</div>
+    <div class="hint">Sirf <b>naam</b> aur <b>repo URL</b> lazmi hain — install/start command panel khud detect kar lega (npm/yarn/pnpm, TypeScript build, node/python entry).</div>
   </div>
   <div id="bots"></div>
 </main>
@@ -88,10 +88,10 @@
       <button class="btn-sm b-gray" onclick="closeModal('envModal')">✕ Band</button>
     </div>
     <div class="modal-body" style="padding:16px">
-      <label>Start command</label>
-      <input id="setStart" style="margin-bottom:12px" placeholder="npm start">
+      <label>Start command (khali = auto detect)</label>
+      <input id="setStart" style="margin-bottom:12px" placeholder="khali = auto detect">
       <label>Install command (khali = auto detect)</label>
-      <input id="setInstall" style="margin-bottom:12px" placeholder="npm install">
+      <input id="setInstall" style="margin-bottom:12px" placeholder="khali = auto detect">
       <label>Environment variables (har line par KEY=value)</label>
       <textarea id="envText" style="min-height:160px" placeholder="KEY=value har line par"></textarea>
       <div class="hint">Save ke baad <b>Redeploy</b> dabao taake install dobara chale, ya <b>Restart</b> taake nayi settings apply hon.</div>
