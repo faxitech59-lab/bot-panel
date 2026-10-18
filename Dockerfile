@@ -2,8 +2,9 @@
 FROM node:20-slim
 
 # git (repo clone), ffmpeg + build tools (aksar bots ko chahiye hota hai)
+# ca-certificates lazmi hai warna git clone HTTPS verify nahi kar pata
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git ffmpeg python3 make g++ \
+    git ca-certificates ffmpeg python3 make g++ \
   && rm -rf /var/lib/apt/lists/* \
   && corepack enable
 
