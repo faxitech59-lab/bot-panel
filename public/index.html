@@ -140,6 +140,7 @@ async function loadBots() {
           <button class="btn-sm b-red" onclick="act('${b.name}','stop')">⏹ Stop</button>
           <button class="btn-sm b-blue" onclick="act('${b.name}','restart')">↻ Restart</button>
           <button class="btn-sm b-orange" onclick="act('${b.name}','redeploy')">⬇ Redeploy</button>
+          <button class="btn-sm b-blue" onclick="autofix('${b.name}')">🛠 Auto-fix</button>
           <button class="btn-sm b-gray" onclick="openLogs('${b.name}')">📜 Logs</button>
           <button class="btn-sm b-gray" onclick="openEnv('${b.name}')">⚙ Env</button>
           <button class="btn-sm b-red" onclick="del('${b.name}')">🗑</button>
@@ -162,6 +163,13 @@ async function del(name) {
   if (!confirm(`"${name}" delete kar dun? Code aur logs sab mit jayenge.`)) return;
   try { await api('DELETE', `/api/bots/${name}`); toast('Deleted'); loadBots(); }
   catch(e) { toast(e.message); }
+}
+async function autofix(name) {
+  if (!confirm(`"${name}" ka auto-fix chalau? Commands reset hokar dobara detect honge.`)) return;
+  toast('Auto-fix chal raha hai…');
+  try { await api('POST', `/api/bots/${name}/autofix`); toast('Auto-fix complete'); }
+  catch(e) { toast(e.message); }
+  setTimeout(loadBots, 1500);
 }
 async function openLogs(name) {
   currentLogBot = name; $('logTitle').textContent = '📜 ' + name + ' — logs';

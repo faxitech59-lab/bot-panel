@@ -105,6 +105,10 @@ app.post('/api/bots/:name/settings', ah(async (req, res) => {
   }) });
 }));
 
+app.post('/api/bots/:name/autofix', ah(async (req, res) => {
+  res.json({ ok: true, bot: await runner.autofixBot(req.params.name) });
+}));
+
 app.delete('/api/bots/:name', ah(async (req, res) => {
   res.json(runner.deleteBot(req.params.name));
 }));
