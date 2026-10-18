@@ -84,13 +84,18 @@
 <div class="modal" id="envModal">
   <div class="modal-box">
     <div class="modal-head">
-      <b id="envTitle">Env Variables</b>
+      <b id="envTitle">Settings</b>
       <button class="btn-sm b-gray" onclick="closeModal('envModal')">✕ Band</button>
     </div>
     <div class="modal-body" style="padding:16px">
-      <textarea id="envText" style="min-height:220px" placeholder="KEY=value har line par"></textarea>
-      <div class="hint">Save ke baad bot ko <b>Restart</b> karo taake naye variables apply hon.</div>
-      <button class="btn-primary" onclick="saveEnv()">Save Variables</button>
+      <label>Start command</label>
+      <input id="setStart" style="margin-bottom:12px" placeholder="npm start">
+      <label>Install command (khali = auto detect)</label>
+      <input id="setInstall" style="margin-bottom:12px" placeholder="npm install">
+      <label>Environment variables (har line par KEY=value)</label>
+      <textarea id="envText" style="min-height:160px" placeholder="KEY=value har line par"></textarea>
+      <div class="hint">Save ke baad <b>Redeploy</b> dabao taake install dobara chale, ya <b>Restart</b> taake nayi settings apply hon.</div>
+      <button class="btn-primary" onclick="saveEnv()">Save Settings</button>
     </div>
   </div>
 </div>
@@ -168,17 +173,22 @@ async function refreshLogs() {
   catch(e) { $('logBody').textContent = 'Error: ' + e.message; }
 }
 async function openEnv(name) {
-  currentEnvBot = name; $('envTitle').textContent = '⚙ ' + name + ' — env variables';
+  currentEnvBot = name; $('envTitle').textContent = '⚙ ' + name + ' — settings';
   $('envText').value = '(load ho raha hai…)'; $('envModal').classList.add('open');
   try {
     const { bot } = await api('GET', `/api/bots/${name}`);
     currentEnvKeys = bot.envKeys || [];
+    $('setStart').value = bot.startCmd || '';
+    $('setInstall').value = bot.installCmd || '';
     $('envText').value = '';
     $('envText').placeholder = 'Maujooda keys: ' + (currentEnvKeys.join(', ') || 'koi nahi') + '\nNayi values yahan likho (KEY=value har line par). Purani keys dobara likhni hongi warna mit jayengi.';
   } catch(e) { $('envText').value = ''; toast(e.message); }
 }
 async function saveEnv() {
-  try { await api('POST', `/api/bots/${currentEnvBot}/env`, { env: $('envText').value }); toast('Saved — Restart karo'); closeModal('envModal'); }
+  try {
+    await api('POST', `/api/bots/${currentEnvBot}/settings`, { env: $('envText').value, startCmd: $('setStart').value, installCmd: $('setInstall').value });
+    toast('Saved — ab Redeploy ya Restart karo'); closeModal('envModal');
+  }
   catch(e) { toast(e.message); }
 }
 function closeModal(id) { $(id).classList.remove('open'); }

@@ -97,6 +97,14 @@ app.post('/api/bots/:name/env', ah(async (req, res) => {
   res.json({ ok: true, bot: runner.updateBotEnv(req.params.name, typeof env === 'string' ? parseEnv(env) : (env || {})) });
 }));
 
+app.post('/api/bots/:name/settings', ah(async (req, res) => {
+  const { env, startCmd, installCmd } = req.body || {};
+  res.json({ ok: true, bot: runner.updateBotSettings(req.params.name, {
+    env: typeof env === 'string' ? parseEnv(env) : env,
+    startCmd, installCmd,
+  }) });
+}));
+
 app.delete('/api/bots/:name', ah(async (req, res) => {
   res.json(runner.deleteBot(req.params.name));
 }));
