@@ -128,7 +128,7 @@ async function loadBots() {
       el.innerHTML = `
         <div class="bot-head"><span class="bot-name">${esc(b.name)}</span>${pill(b)}</div>
         <div class="bot-repo">${esc(b.repo)}</div>
-        <div class="bot-meta">branch: ${esc(b.branch)} · start: <code>${esc(b.startCmd)}</code>${b.restarts?` · restarts: ${b.restarts}`:''}</div>
+        <div class="bot-meta">branch: ${esc(b.branch)} · start: <code>${esc(b.startCmd)}</code>${b.port?` · port: ${b.port}`:''}${b.restarts?` · restarts: ${b.restarts}`:''}</div>
         ${b.lastError ? `<div class="bot-err">${esc(b.lastError)}</div>` : ''}
         <div>
           <button class="btn-sm b-green" onclick="act('${b.name}','start')">▶ Start</button>
